@@ -11,9 +11,14 @@
     <header>
       <h1>NFT Airdrop Platform</h1>
       <p class="subtitle">Arc Testnet | ERC-721 & ERC-1155</p>
+      <div class="wallet-bar">
+        <button id="connectBtn" onclick="connectWallet()">Connect Wallet</button>
+        <span id="walletInfo"></span>
+      </div>
     </header>
 
-    <section class="stats" id="stats">
+    <!-- Stats -->
+    <section class="stats">
       <div class="stat-card">
         <div class="stat-value" id="totalCampaigns">-</div>
         <div class="stat-label">Campaigns</div>
@@ -28,22 +33,103 @@
       </div>
     </section>
 
-    <section class="campaigns">
-      <h2>Campaigns</h2>
+    <!-- Step 1: Deploy Contracts -->
+    <section class="panel" id="deploySection">
+      <h2>Step 1: Deploy NFT Contracts</h2>
+      <p class="hint">Deploy new ERC-721 or ERC-1155 contracts, or use existing ones below.</p>
+      <div class="deploy-row">
+        <button class="btn-secondary" onclick="deployContract('ArcNFT')">Deploy ERC-721</button>
+        <button class="btn-secondary" onclick="deployContract('ArcMultiToken')">Deploy ERC-1155</button>
+        <button class="btn-secondary" onclick="deployContract('NFTAirdropPlatform')">Deploy Platform</button>
+      </div>
+      <div class="form-group" style="margin-top:1rem">
+        <label>Platform Contract</label>
+        <input type="text" id="platformAddr" value="0x81eb0527141bdA04A19acd26d5da503aDc5a519A" placeholder="0x...">
+      </div>
+      <div id="deployLog" class="log-box"></div>
+    </section>
+
+    <!-- Step 2: Create Campaign -->
+    <section class="panel" id="createSection">
+      <h2>Step 2: Create Airdrop Campaign</h2>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Campaign Name</label>
+          <input type="text" id="campaignName" placeholder="e.g. OG Badge Airdrop">
+        </div>
+        <div class="form-group">
+          <label>NFT Type</label>
+          <select id="nftType" onchange="toggleERC1155Fields()">
+            <option value="721">ERC-721 (Unique)</option>
+            <option value="1155">ERC-1155 (Multi-copy)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>NFT Contract Address</label>
+          <input type="text" id="nftContract" placeholder="0x... (deployed NFT contract)">
+        </div>
+        <div class="form-group">
+          <label>Metadata URI (optional)</label>
+          <input type="text" id="metadataURI" placeholder="ipfs://... or https://...">
+        </div>
+        <div class="form-group erc1155-field" style="display:none">
+          <label>ERC-1155 Token ID</label>
+          <input type="number" id="erc1155TokenId" value="1" min="0">
+        </div>
+        <div class="form-group erc1155-field" style="display:none">
+          <label>Amount per Recipient</label>
+          <input type="number" id="erc1155Amount" value="10" min="1">
+        </div>
+      </div>
+      <button class="btn-primary" onclick="createCampaign()">Create Campaign</button>
+      <div id="createLog" class="log-box"></div>
+    </section>
+
+    <!-- Step 3: Airdrop -->
+    <section class="panel" id="airdropSection">
+      <h2>Step 3: Batch Airdrop</h2>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Campaign ID</label>
+          <input type="number" id="airdropCampaignId" value="0" min="0">
+        </div>
+        <div class="form-group full-width">
+          <label>Recipient Addresses (one per line, or paste CSV)</label>
+          <textarea id="recipientList" rows="5" placeholder="0xabc123...&#10;0xdef456...&#10;0x789abc..."></textarea>
+        </div>
+        <div class="form-group full-width">
+          <label>Or upload CSV file</label>
+          <input type="file" id="csvFile" accept=".csv,.txt" onchange="loadCSV(event)">
+        </div>
+      </div>
+      <button class="btn-primary" onclick="executeAirdrop()">Execute Airdrop</button>
+      <div id="airdropLog" class="log-box"></div>
+    </section>
+
+    <!-- Campaign List -->
+    <section class="panel">
+      <h2>All Campaigns <button class="btn-small" onclick="loadCampaigns()">Refresh</button></h2>
       <div id="campaignList" class="campaign-grid"></div>
     </section>
 
-    <section class="lookup">
+    <!-- Balance Lookup -->
+    <section class="panel">
       <h2>Check NFT Balance</h2>
       <div class="lookup-form">
         <input type="text" id="lookupAddress" placeholder="Enter wallet address (0x...)">
+        <input type="text" id="lookupNFT" placeholder="NFT contract (0x...)" value="0x1269b2a9a2d779B8D74997B2859BFB93E9c98Af1">
         <button onclick="lookupBalance()">Check</button>
       </div>
       <div id="balanceResult" class="balance-result"></div>
     </section>
 
+    <!-- Tx Log -->
+    <section class="panel">
+      <h2>Transaction Log</h2>
+      <div id="txLog" class="log-box"></div>
+    </section>
+
     <footer>
-      <p>Platform: <code id="platformAddr"></code></p>
       <p>Built on <a href="https://arc.circle.com" target="_blank">Arc Network</a> by Circle</p>
     </footer>
   </div>
