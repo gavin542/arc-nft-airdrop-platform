@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NFT Airdrop Platform - Arc Testnet</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>NFT Airdrop Platform</h1>
+      <p class="subtitle">Arc Testnet | ERC-721 & ERC-1155</p>
+    </header>
+
+    <section class="stats" id="stats">
+      <div class="stat-card">
+        <div class="stat-value" id="totalCampaigns">-</div>
+        <div class="stat-label">Campaigns</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="totalAirdropped">-</div>
+        <div class="stat-label">NFTs Airdropped</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="activeCampaigns">-</div>
+        <div class="stat-label">Active</div>
+      </div>
+    </section>
+
+    <section class="campaigns">
+      <h2>Campaigns</h2>
+      <div id="campaignList" class="campaign-grid"></div>
+    </section>
+
+    <section class="lookup">
+      <h2>Check NFT Balance</h2>
+      <div class="lookup-form">
+        <input type="text" id="lookupAddress" placeholder="Enter wallet address (0x...)">
+        <button onclick="lookupBalance()">Check</button>
+      </div>
+      <div id="balanceResult" class="balance-result"></div>
+    </section>
+
+    <footer>
+      <p>Platform: <code id="platformAddr"></code></p>
+      <p>Built on <a href="https://arc.circle.com" target="_blank">Arc Network</a> by Circle</p>
+    </footer>
+  </div>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

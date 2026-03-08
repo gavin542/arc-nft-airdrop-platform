@@ -1,0 +1,20 @@
+{
+  "name": "nft-airdrop-platform",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "NFT Airdrop Platform on Arc Testnet - Deploy, create campaigns, and batch airdrop ERC-721/ERC-1155 NFTs",
+  "scripts": {
+    "deploy": "node scripts/deploy.mjs",
+    "create-campaign": "node scripts/create-campaign.mjs",
+    "airdrop": "node scripts/airdrop.mjs",
+    "status": "node scripts/check-status.mjs",
+    "monitor": "node scripts/monitor-events.mjs",
+    "run-all": "node scripts/run-all.mjs"
+  },
+  "dependencies": {
+    "@circle-fin/developer-controlled-wallets": "^6.0.0",
+    "@circle-fin/smart-contract-platform": "^6.0.0",
+    "dotenv": "^16.3.1",
+    "viem": "^2.0.0"
+  }
+}
